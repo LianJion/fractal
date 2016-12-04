@@ -145,7 +145,8 @@
 
 * visibility: hidden , visible , collapse
 
-###### visibility: collapse;当在表格元素中使用时，此值可删除一行或一列，但是它不会影响表格的布局。被行或列占据的空间会留给其他内容使用。如果此值被用在其他的元素上，会呈现为 "hidden"
+###### visibility: collapse;当在表格元
+素中使用时，此值可删除一行或一列，但是它不会影响表格的布局。被行或列占据的空间会留给其他内容使用。如果此值被用在其他的元素上，会呈现为 "hidden"
     $div.velocity( { opacity: 0 }, { display: "none" });
     //淡出，将该元素移除文档流
     $div.velocity( { opacity: 1 }, { display: "block" });
@@ -156,3 +157,62 @@
     $div.velocity( "fadeIn", { duration:400});
     //淡出，将该元素移除文档流
     $div.velocity( "fadeOut", { duration:400 });
+
+
+####12月4日  笔记
+
+###### 1 reverse：反转，让元素变回上次调用velocity的值
+    //针对之前调用的选项进行反转
+      $div.velocity("reverse");
+
+    //如果要具体哪一项的话, 指定，并用2000替换了之前的值 duration:ms
+    $div.velocity("reverse", {duration: 2000});
+
+###### 注意：一旦用了reverse，那么之前调用的begin和complete就会被忽略。reverse 不会重新调用回调函数。
+
+###### 2 scrolling：滚动，让浏览器滚动到一个元素的上缘位置。
+    //注意了，参数是scroll
+    $div.velocity("scroll", {duration：2000, esaing: "spring"}).velocity({opacity:1});
+
+    //针对的是自带滚动条的父元素
+
+      #container {
+        position: absolute;
+        background-color: #eee;
+        height: 200px;
+        width: 1200px;
+        overflow: auto; //带有滚动条
+      }
+
+
+      $div.velocity("scroll", { container: $("#container"),duration: 1800, 
+    delay: 500, });  
+
+    $div.velocity( "scroll", {axis:"x"});
+    //横向上滚动，但是我自己没有实现这个功能
+
+    //偏移，滚动的时候偏移，单位px。正数往上，负数往下
+    $div.velocity( "scroll", {duration：2000, offset:"50px"});
+
+
+    $div.velocity( "scroll", { axis:"x" , container: $("#container"), duration:2000, offset:"100px"});
+    //实现了x的偏移功能
+
+
+        #test {
+          background-color: red;
+          position: absolute;
+          top:800px;
+          opacity: 1;
+          width: 600px;
+        }
+
+        #container {
+          position: absolute;
+          background-color: #eee;
+          height: 200px;
+          width: 500px;
+          overflow: auto;
+         /* overflow:scroll;
+          overflow-y: hidden;*/
+        }
