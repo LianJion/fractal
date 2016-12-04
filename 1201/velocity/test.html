@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>velocity</title>
+  <style>
+    #test {
+      background-color: red;
+      position: absolute;
+      top:200px;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="test">
+    <p>velocityJS初始</p>
+  </div>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="http://cdn.jsdelivr.net/velocity/1.1.0/velocity.min.js"></script>
+  <script>
+    var $div = $("#test");
+   
+    // $div.velocity({ top:50 }, 1000, "ease-in-out", function() { alert("complete") });
+   /* $div.velocity(
+      { top:50 }, 
+      { duration:400, easing:"spring", delay:500 , 
+        begin: function () {
+          alert("hello!");
+        },
+        complete: function () {
+          alert("over!");
+        }
+      });*/
+
+      // $div.velocity( { opacity: 0 }, { loop:true , delay: 1000} );
+      // $div.velocity( { opacity: 0 }, { display: "none" });
+      //淡出，将该元素移除文档流
+      // $div.velocity( { opacity: 1 }, { display: "block" });
+      //淡入
+      // $div.velocity({ top: "50px", opacity:0 }, { duration:400, easing:"swing", loop:2 });
+      // $div.velocity("stop").velocity({ opacity:0 });
+
+         //简写切换透明度  
+      $div.velocity( "fadeOut", { duration:400 });
+      $div.velocity( "fadeIn", { duration:400});
+      //淡出，将该元素移除文档流
+      
+      //淡入
+  </script>
+</body>
+</html>
