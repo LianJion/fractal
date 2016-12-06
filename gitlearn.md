@@ -394,8 +394,11 @@
      + 898e2d1...e13516b master -> master (forced update)
 
 ######成功啦！
+######之后再上传别的文件可以直接使用git   push
 
-    G:\git1001 [master ≡ +8 ~1 -0 !]> git add 1128fractal,1128kochmv, kochpro
+######git add 多个文件名字，用逗号隔开，多个文件可以用空格来隔开     逗号/ 空格
+######G:\git1001 [master ≡ +8 ~1 -0 !]> git add 1128fractal,1128kochmv, kochpro
+
     warning: LF will be replaced by CRLF in 1128kochmv/koch/js/roundedRectangle.js.
     The file will have its original line endings in your working directory.
     warning: LF will be replaced by CRLF in 1128kochmv/koch/js/slider.js.
@@ -435,7 +438,7 @@
      create mode 100644 1128kochmv/koch/js/test.js
      create mode 100644 1128kochmv/koch/style/style.css
      create mode 100644 kochpro/koch.js
-    G:\git1001 [master ↑ +8 ~1 -0 !]> git push -f origin master
+    G:\git1001 [master ↑ +8 ~1 -0 !]> git push 
     Counting objects: 26, done.
     Delta compression using up to 4 threads.
     Compressing objects: 100% (24/24), done.
@@ -445,3 +448,73 @@
     To https://github.com/LianJion/fractal.git
        e13516b..acc2171  master -> master
     G:\git1001 [master ≡ +8 ~1 -0 !]>
+
+
+##公共访问：比如说托管一些开源项目--- -->设置简单的匿名读取权限。[链接](http://iissnan.com/progit/html/zh/ch4_5.html)
+* 对小型的配置来说最简单的办法就是运行一个静态 web 服务。
+* 把它的根目录设定为 Git 仓库所在的位置，然后开启 post-update 挂钩
+
+*1* 仓库现在处于 /opt/git 目录，主机上运行着 Apache 服务（可以是任何web服务器,nginx,这里以apche为例，我们用的是nginx）
+
+*2* 开启挂钩：post-update 
+
+######挂钩的作用：当通过 SSH 向服务器推送时，Git 将运行这个 git-update-server-info 命令来更新匿名 HTTP 访问获取数据时所需要的文件。
+
+    $ cd project.git
+    $ mv hooks/post-update.sample hooks/post-update
+    //mv命令用来对文件或目录重新命名，或者将文件从一个目录移到另一个目录。这里是重命名？
+    $ chmod a+x hooks/post-update
+    // chmod命令用来变更文件或目录的权限 
+    // a:即全部的用户，包含拥有者，所属群组以及其他用户
+    // x:执行或切换权限
+    // a+x:允许任何用户执行权限
+
+###### 我们可以查看下post-update文件的内容
+    $ cat .git/hooks/post-update
+    #!/bin/sh
+    #
+    # An example hook script to prepare a packed repository for use over
+    # dumb transports.
+    #
+    # To enable this hook, rename this file to "post-update".
+    #
+    exec git-update-server-info
+
+*3* 在 Apache 配置文件中添加一个 VirtualHost 条目，把文档根目录设为 Git 项目所在的根目录。
+    
+    //不同服务器不同配置
+    <VirtualHost *:80>
+        ServerName git.gitserver
+        DocumentRoot /opt/git
+        <Directory /opt/git/>
+            Order allow, deny
+            allow from all
+        </Directory>
+    </VirtualHost>
+
+######注意：nginx配置教程在新兵训练营的参考链接里
+*4* 把 /opt/git 目录的 Unix 用户组设定为 www-data 。这样 web 服务才可以读取仓库内容(因为运行 CGI 脚本的 Apache 实例进程默认就是以该用户的身份起来的)
+
+    $ chgrp -R www-data /opt/git
+
+    //chgrp命令用来改变文件或目录所属的用户组  
+    // -R 递归处理，将指令目录下的所有文件及子目录一并处理；
+    //将/opt/git的用户组全改成www-data
+
+*5* 重启 Apache 之后，即可通过项目的 URL 来克隆该目录下的仓库了。
+
+    $ git clone http://git.gitserver/project.git
+
+
+####以上步骤可以在几分钟内为相当数量的用户架设好基于   HTTP 的读取权限。
+
+##GitWeb: 提供了Git版本库的图形化web浏览功能
+* Git 自带一个叫做 GitWeb 的 CGI 脚本 [体验站点](http://git.kernel.org)
+
+
+
+######1206 自己在本地仓库里修改了文件，要更新的话还是要走一波三部曲
+
+        git add "xxx"
+        git commit -m "xxx"
+        git push origin velocity
