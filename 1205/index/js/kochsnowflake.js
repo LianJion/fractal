@@ -43,7 +43,7 @@ function Kochsnowflake(canvas){
     this.angle = Math.PI/3;
 
     //这里的参数可以修改
-    this.x_offset = (this.canvas.width-this.base_width)/4;
+    this.x_offset = (this.canvas.width-this.base_width)/2;
     this.y_offset = (this.canvas.height-( Math.sqrt(3)*(this.base_width*this.ratio)/0.6));
 }
 
@@ -73,6 +73,8 @@ Kochsnowflake.prototype = {
             this.canvas.ctx.strokeStyle = this.order_colors[whole];
             this.canvas.ctx.translate(this.x_offset,this.y_offset);
             this.draw(0);
+
+        //绘制雪花的另外两边
             //画左边的koch曲线
             this.canvas.ctx.save();
                 this.canvas.ctx.translate(this.base_width,0);
@@ -88,6 +90,7 @@ Kochsnowflake.prototype = {
                 this.canvas.ctx.rotate(-2*this.angle);
                 this.draw(0);
             this.canvas.ctx.restore();
+
         this.canvas.ctx.restore(); 
     },
     drawLine: function(length){

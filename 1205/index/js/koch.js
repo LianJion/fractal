@@ -43,8 +43,9 @@ function Koch(canvas){
     this.angle = Math.PI/3;
 
     //这里的参数可以修改
-    this.x_offset = (this.canvas.width-this.base_width)/4;
+    this.x_offset = (this.canvas.width-this.base_width)/2;
     this.y_offset = (this.canvas.height-( Math.sqrt(3)*(this.base_width*this.ratio)/1.2 ));
+    console.log(this.y_offset);
 }
 
 Koch.prototype = {
