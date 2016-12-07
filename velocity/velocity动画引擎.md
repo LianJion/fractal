@@ -351,3 +351,188 @@
 *2* UED： User Experience Design 用户体验设计
 
 *3* UI: how the product is laid out. 
+
+
+#### 12月7日笔记 第4章 动画工作流
+
+*1* 结构化动画代码
+
+* 利用动画引擎的工作流特性使代码更简单明了；
+* 使用代码组织最佳实践（我觉得这位翻译大师水平不咋地啊）
+* 避免深层嵌套js回调函数
+* 拒绝css动画污染开发样式表
+
+*2* 什么时候的UI动画用css比较明智？
+
+###### 用户鼠标悬停在元素上时触发的简单样式变化:css   transition属性
+
+    transition-property
+    transition-duration
+    transition-timing-function
+    transition-delay
+
+    transition: property duration timing-function delay;
+    transition-timing-function: linear|ease|ease-in|ease-out|ease-in-out|
+    cubicbezier(n,n,n,n);
+
+    div
+    {
+      width:100px;
+      height:100px;
+      background:blue;
+      transition:width 2s;
+      -moz-transition:width 2s; /* Firefox 4 */
+      -webkit-transition:width 2s; /* Safari and Chrome */
+      -o-transition:width 2s; /* Opera */
+    }
+
+    div:hover
+    {
+      width:300px;
+    }
+
+*3* 好代码的特性：表意性，简洁的，易于维护的。
+
+*4* 常用js实现比较好的交互效果：多元素和多步骤的动画序列，交互拖拽动画等
+
+*5* 代码技巧： 样式与逻辑分离
+
+    //style.js   
+    var fadeIn = {
+      //p: properties
+      p: {
+        opacity: 1,
+        top: "50px"
+      },
+      //o: options
+      o: {
+        duration: 1000,
+        easing: "ease-out"
+      }
+    };
+
+    var $test = $(".test");
+    $test.velocity(fadeIn.p, fadeIn.o);
+
+###### style.js文件的好处
+
+* 定义动画选项
+* 定义动画属性
+*  $test.velocity(fadeIn.p, fadeIn.o);  //第一个参数是属性，第二个参数是选项。
+*  动画对象要有对应其含义的名字
+
+#### 针对不同的按钮，模态框这些可以设置不同的选项
+
+###### 不同选项不同的设置
+
+    var fadeIn = {
+      p: {
+        opacity: 1,
+        top: "50px"
+      },
+      oFast: {
+        duration: 1000,
+        easing: "ease-out"
+      },
+      oSlow: {
+        duration: 3000,
+        easing: "ease-out"
+      }
+    };
+
+    var $test = $(".test");
+    $test.velocity(fadeIn.p, fadeIn.oFast);
+
+    var $test2 = $(".test2");
+    $test2.velocity(fadeIn.p, fadeIn.oSlow);
+
+###### 将fast和slow作为子对象嵌套在一个单独的o选项对象里面
+
+    var fadeIn = {
+      p: {
+        opacity: 1,
+        top: "50px"
+      },
+      o: {
+        fast: {
+          duration: 1000,
+          easing: "ease-out"
+        },
+        slow: {
+          duration: 3000,
+          easing: "ease-out"
+        }
+      }
+    };
+
+    var $test = $(".test");
+    $test.velocity(fadeIn.p, fadeIn.o.fast);
+
+    var $test2 = $(".test2");
+    $test2.velocity(fadeIn.p, fadeIn.o.slow);
+
+
+*6*  组织排序动画： UI pack小插件 功能：顺序运行
+
+* velocity接受多参数语法
+* velocity的效用函数(utility function):使用基本的velocity对象设置元素的动画。
+
+*6.1* 我们现在一般是这样用velocity
+      
+      $div.velocity({ top: "50px" }, { duration:400, easing:"swing"});
+      //前面还是要，链接一个jquery元素对象($div)
+
+*6.2* 脱离基本velocity对象的动画的代码写法
+
+      $.Velocity({e: $div, p: {opacity: 1, scale: 1}, o: {duration: 1000, easing: "linear"} });
+      //把目标元素作为第一个参数传入
+
+*6.3* Velocity调用构成的一个数组，每个调用都是单个对象。然后将数组传入到一个特殊的Velocity函数中，即RunSequence(),连续触发调用序列。
+
+      var loadingSequence = [
+           {e: $div1, p: {translateX: 100, opacity: 1}, o: {duration: 1000}},
+           {e: $div2, p: {translateX: 200, opacity: 1}, o: {duration: 1000}},
+           {e: $div3, p: {translateX: 300, opacity: 1}, o: {duration: 1000}}
+      ];
+
+      $.Velocity.RunSequence(loadingSequence);
+
+
+###### error:velocity.min.js:4 Uncaught (in promise) Error: Velocity: First argument (undefined) was not a property map, a known action, or a registered redirect. Aborting.(…)
+
+[解决方式](https://github.com/julianshapiro/velocity/issues/569)
+
+###### 自己的解决方式： 替换文件，引入文件不是min版本
+    <script src="velocity.js"></script>
+    <script src= "velocity.ui.js"></script>
+
+
+    var test1 = document.getElementById('test');
+  
+    var test2 = document.getElementById('test2');
+    
+    var test3 = document.getElementById('test3');
+
+    $.Velocity.RunSequence([
+      {e: test1, p: {translateX: 100, top: "50px", opacity: 1}, o: fadeIn.o.slow },
+      {e: test2, p: {translateX: 200, top: "50px", opacity: 1}, o: fadeIn.o.fast },
+      {e: test3, p: {translateX: 300, top: "50px", opacity: 1}, o: fadeIn.o.slow }
+    ]);
+
+*6.4* 优点
+
+* 结构直观明了，属性选项的不同之处也可以一眼看出。
+* 易读性，易维护性
+* 并非顺序性：设置为 sequenceQueue:false 时，该选项会与前一项并发执行。用于多个元素同时以动画的形式进入视图。
+
+###### 并发
+
+    $.Velocity.RunSequence([
+      {e: test1, p: {translateX: 100, top: "50px", opacity: 1}, o: {duration: 1000} },
+      {e: test2, p: {translateX: 200, top: "50px", opacity: 1}, o: {duration: 1000, sequenceQueue: false } },
+      {e: test3, p: {translateX: 300, top: "50px", opacity: 1}, o: {duration: 1000} }
+    ]);
+
+    //test1和test2同时执行，test3在test2执行后执行。
+
+
