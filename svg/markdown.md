@@ -1,0 +1,1 @@
+[markdown修炼金刚经](http://blog.leanote.com/post/freewalk/Markdown-语法手册#index)
