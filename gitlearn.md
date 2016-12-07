@@ -518,3 +518,102 @@
         git add "xxx"
         git commit -m "xxx"
         git push origin velocity
+
+
+###### 1207 发现自己的分支里的文件基于master，里面的文件太多了。其实应该新建一个项目才是，分支里面本来就是有原来主分支里的文件的。诶
+
+*1* 删除分支里面不想要的文件夹，本来想只删除远程里的文件夹的，结果本地的也删除了。。。
+
+*1.1* 删除rm命令: [rm参考资料](http://classfoo.com/ccby/article/KkGHbSF)
+
+    git rm -r --cached 1201 1204 1205
+    //删除1201 1204 1205这三个文件。
+
+* -r 进入某个目录中，执行此语句，会删除该目录下的所有文件和子目录。
+* --cached 不删除物理文件，仅将该文件从缓存中删除，就是只删除远程文件夹
+
+*1.2* 删除具体某个文件
+
+    git rm --cached "路径+文件名"
+    git rm --cached 1128kochmv/koch/images/bg.png
+
+###### 这里涉及到查看路径
+    git ls-files
+    //查看结果如下
+    1128kochmv/koch/images/bg.png
+
+###### 我在这里碰到了一个问题：
+    fatal: pathspec 'cached' did not match any files
+
+###### 解决方案： git rm --cached 1128kochmv/koch/images/bg.png ,--cached中 --和cached之间没有空格啊！
+
+*1.3* 删除完了要提交
+        
+    git commit -m "remove the 1128fractal"
+
+*1.4* 提交完了要push
+    
+    git push origin svg
+
+*1.5* 然后便完成了我自己想的远程文件夹的删除，本地文件夹的保留？你在逗我！
+    
+    //我要切换回主分支的时候报错了！！！就是在你以为大功告成的时候拖你下水。
+    G:\git1001 [svg +17 ~1 -0 !]> git checkout master
+
+    error: The following untracked working tree files would be overwritten by checkout:
+            1128kochmv/koch/images/bg.png
+            1128kochmv/koch/images/drop.svg
+            1128kochmv/koch/images/temper.png
+            1128kochmv/koch/images/waterdrop.png
+            1128kochmv/koch/index.html
+            1128kochmv/koch/js/gradient.js
+            1128kochmv/koch/js/js.js
+            1128kochmv/koch/js/koch.js
+            1128kochmv/koch/js/kochalone.js
+            1128kochmv/koch/js/kochcartoon.js
+            1128kochmv/koch/js/kochdrop.js
+            1128kochmv/koch/js/requestNextAnimationFrame.js
+            1128kochmv/koch/js/roundedRectangle.js
+            1128kochmv/koch/js/slider.js
+            1128kochmv/koch/js/test.js
+            1128kochmv/koch/style/style.css
+        Please move or remove them before you switch branches.
+        Aborting
+
+###### 网上找了解决方案？excuse  me ?
+    git clean  -d  -fx ""
+
+    x  -----删除忽略文件已经对git来说不识别的文件
+    d  -----删除未被添加到git的路径中的文件
+    f  -----强制运行
+
+
+
+    G:\git1001 [svg +17 ~1 -0 !]> git clean  -d  -fx ""
+    //执行效果如下
+        Removing .README.md.swp
+        Removing .test.rb.swp
+        Removing ".\357\200\272wa.swp"
+        Removing 1128kochmv/
+        Removing 1129/
+        Removing 1201/
+        Removing 1204/
+        Removing 1205/
+        Removing drop/
+        Removing forgotten_file/
+        Removing gitlearn.html
+        Removing kochpro/
+        Skipping repository simplegit-progit/
+        Removing test.rb
+        Skipping repository ticgit/
+        Removing tree.jpg
+        Removing tree/
+
+###### 结果？ 嗯，我本地文件夹也没了。。。
+
+[涉世未深，没有看完参考资料](http://stackoverflow.com/questions/4858047/the-following-untracked-working-tree-files-would-be-overwritten-by-checkout)
+
+###### 有时间再各个斟酌吧！
+
+
+
