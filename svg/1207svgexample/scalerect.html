@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>scale rect</title>
+</head>
+<body>
+  <svg width="250" height="50">
+    <title>Shrinking Rectangle</title>
+    <desc>Animating the width attribute of a rectangle</desc>
+
+    <rect x="10" y="10" width="200" height="20" stroke="black" fill="#eee">
+      <animate id="animation"
+        attributeName="width"
+        attributeType="XML"
+        from="200" to="20"
+        begin="0s" dur="5s"
+        fill="freeze" />
+    </rect>
+  </svg>
+
+
+  <svg width="500" height="200">
+    <circle cx="60" cy="60" r="30" style="fill: #f9f; stroke: gray;">
+      <animate id="c1" attributeName="r" attributeType="XML"
+        begin="0s" dur="4s" from="30" to="10" fill="freeze"/>
+    </circle>
+
+    <circle cx="120" cy="60" r="10" style="fill: #9f9; stroke: gray;">
+      <animate attributeName="r" attributeType="XML"
+        begin="c1.begin+1.25s" dur="10s" end="14s" from="10" to="30" fill="freeze"/>
+    </circle>
+
+    <text text-anchor="middle" x="160px" y="60px" style="visibility: hidden;font-size: 50px;">
+      <set attributeName = "visibility" attributeType = "CSS" to="visible" begin="4.5s" dur="1s" fill = "freeze" /> All gone!
+    </text>
+  </svg>
+</body>
+</html>
