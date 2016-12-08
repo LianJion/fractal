@@ -6,6 +6,7 @@ var sky = new Image(),
     grass2 = new Image(),
     icebar = new Image(),
     snow = new Image(),
+    fish = new Image(),
     paused = true,
     isDrag = false,
     drop = false,
@@ -30,7 +31,7 @@ var sky = new Image(),
 
 
 var exp = 20;
-
+var exptest = 1;
 //初始化坐标值
 var kochsnowflakemv = {
   x:200,
@@ -78,11 +79,31 @@ var snowpos = {
   y: 280,
 }
 
+var  fishpos = {
+  x:0,
+  y:0
+}
+
+
+function updateFishPos () {
+
+  if (fishpos.y >= canvas.height-fish.height) {
+    fishpos.y = canvas.height-fish.height;
+    
+  } else {
+    fishpos.y += exptest;
+  }
+  
+}
+
+
 function calculateFps(now) {
    var fps = 1000 / (now - lastTime);
    lastTime = now;
    return fps; 
 }
+
+
 
 
 
@@ -168,7 +189,9 @@ function drawWater() {
   canvas.ctx.restore();
 }
 
-
+function drawFish() {
+  canvas.ctx.drawImage(fish, fishpos.x, fishpos.y);
+}
 
 
 function drawIce() {
@@ -241,8 +264,9 @@ function kochTest(time) {
       canvas.ctx.clearRect(0,0,canvas.width,canvas.height);
       // drawBg();
       bg();
-     
+      // drawFish();
       drawIce();
+      ///通过调用这个update来增加坐标。
       kochsnowflake.update(snowpos);
 
       //毕达哥斯拉树和h-tree树
@@ -252,7 +276,9 @@ function kochTest(time) {
       // htree.update(htreemv);
 
       drawWater();
-    
+      updateFishPos();
+      console.log(fishpos.y);
+      drawFish();
     
       // console.log(dropWaterOffset);
       if (dropWaterOffset >= 350) {
@@ -330,10 +356,25 @@ function handleMousemove(e) {
   }
 }
 
+function handleMouseclickfish(e) {
+  var mouseX,
+      mouseY;
+  mouseX = parseInt(e.clientX- 8);
+  mouseY = parseInt(e.clientY- 8);
+
+  var dx = mouseX - fishpos.x;
+  var dy = mouseY - fishpos.y;
+  if (dx <= fish.width && dx >= 0 && dy <= fish.height && dy >= 0){
+    
+    paused = false;
+  }
+}
+
 canvas.onmousedown = function(e) {
   //点击拖拽
   handleMouseclick(e);
   handleMousemove(e);
+  handleMouseclickfish(e);
 }
 
 canvas.onmousemove = function(e) {
@@ -403,12 +444,14 @@ grass2.src = 'images/grass2.png';
 sky.src = 'images/background.png';
 icebar.src = 'images/snowhot.png';
 snow.src = 'images/snowflake.png';
+fish.src = 'images/fish.png';
 
 sky.onload = function (e) {
    // drawBg();
    bg();
    drawWater();
    drawIce();
+   drawFish();
   
    koch.update(kochmvcopy);
    // kochsnowflake.update(kochmvcopy);
