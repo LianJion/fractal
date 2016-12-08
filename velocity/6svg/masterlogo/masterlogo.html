@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>masterlogo</title>
+</head>
+<body>
+    <svg version="1.1" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+      <circle id="circleLeft" cx="100" cy="100" r="30" style="fill:red" />
+      <circle id="circleRight" cx="100" cy="100" r="30" style="fill:orange" />
+    </svg>
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="velocity.js"></script>
+    <script src="velocity.ui.js"></script>
+    <script>
+      $("#circleLeft").velocity({cx: "-=15px"}, {easing: "spring"});
+      $("#circleRight").velocity({cx: "+=15px"}, {easing: "spring"});
+
+      $("svg").on("mouseover mouseout", function(){
+        $("#circleLeft, #circleRight").velocity("reverse");
+      });
+    </script>
+</body>
+</html>
