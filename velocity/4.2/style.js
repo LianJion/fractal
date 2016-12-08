@@ -1,4 +1,4 @@
-if (window.jQuery) { var Velocity = $.Velocity; }   
+// if (window.jQuery) { var Velocity = $.Velocity; }   
 
 var fadeIn = {
   p: {
