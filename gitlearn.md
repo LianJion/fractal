@@ -616,4 +616,107 @@
 ###### 有时间再各个斟酌吧！
 
 
+#### 悲愤啊！怎么再velocity分支更新上传个文件，master里面的文件velocity文件就没有了啊！ 你的名字既视感啊！！！ 1208
 
+
+> 我自横刀向天笑！！！！  
+
+###### 更新文件
+
+*1* 查看状态
+        
+        git status
+
+        On branch velocity
+        Changes not staged for commit:
+        //这里有提示，修改过的文件如下
+          (use "git add <file>..." to update what will be committed)
+          (use "git checkout -- <file>..." to discard changes in working directory)
+
+                modified:   README.md
+                modified:   velocity/4.2/style.js
+                //这个坑爹的中文符号啊
+                modified:   "velocity/velocity\345\212\250\347\224\273\345\274\225\346\223\216.md"
+                //其实中文名：velocity动画引擎.md
+        //还没有上传的远程仓库的文件夹
+        Untracked files:
+          (use "git add <file>..." to include in what will be committed)
+
+                simplegit-progit/
+                ticgit/
+
+
+*2* 更新文件
+    
+        git add velocity\345\212\250\347\224\273\345\274\225\346\223\216.md
+
+###### fatal: pathspec 'velocity/velocity\345\212\250\347\224\273\345\274\225\346\223\216.md' did not match any files
+###### 因为它有中文，然后就gg了。不能传，我改本地了个英文名字就ok。
+
+*3* 再次查看状态 ，本地的中文名文件被当作删除处理，重命名的文件作为新文件 velocitylearning.md
+
+    G:\git1001\velocity [velocity +0 ~2 -0 | +2 ~1 -0 !]> git status
+    On branch velocity
+    Changes to be committed:
+      (use "git reset HEAD <file>..." to unstage)
+
+            modified:   ../README.md
+            modified:   4.2/style.js
+
+    Changes not staged for commit:
+      (use "git add/rm <file>..." to update what will be committed)
+      (use "git checkout -- <file>..." to discard changes in working directory)
+            //被删除了
+            deleted:    "velocity\345\212\250\347\224\273\345\274\225\346\223\216.md"
+
+    Untracked files:
+      (use "git add <file>..." to include in what will be committed)
+
+            ../simplegit-progit/
+            ../ticgit/
+            //新的文件
+            velocitylearning.md
+
+
+*4* 姐姐我越挫越勇！ 再次上传
+    
+        git add velocitylearning.md
+        git commit -m velocitylearning
+        git commit -m velocitylearning
+        //成功
+        Counting objects: 7, done.
+        Delta compression using up to 4 threads.
+        Compressing objects: 100% (6/6), done.
+        Writing objects: 100% (7/7), 7.51 KiB | 0 bytes/s, done.
+        Total 7 (delta 4), reused 0 (delta 0)
+        remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+
+###### 第5点作为error
+*5* 没问题啊！这里要讲的是更新文件！出了笑料！
+    
+        (use "git add <file>..." to update what will be committed)
+          (use "git checkout -- <file>..." to discard changes in working directory)
+
+                modified:   README.md
+                modified:   velocity/4.2/style.js
+
+*5.1* 首先 add
+       
+    git add README.md velocity/4.2/style.js
+
+*5.2*  其次是git checkout
+        
+    git checkout -- README.md velocity/4.2/style.js
+    //to discard changes in working directory 尼玛，这是不更新的桀纣啊！
+
+*5.3* git push
+
+    git push origin velocity
+    //显示Everything up-to-date
+
+
+###### 有人翻译了...
+    git checkout a.txt  //撤销a.txt的变动（工作区上的文件）
+    //就是不更新，撤销更新的意思啊！
+
+*6* 更新还是原来的三部曲，add，commit，push
