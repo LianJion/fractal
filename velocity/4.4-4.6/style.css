@@ -1,0 +1,13 @@
+#test {
+  opacity: 0;
+  position: absolute;
+  top: 500px;
+  left: 200px;
+  height: 50px;
+  width: 100px;
+  border: 5px solid red;
+  -webkit-box-shadow: 2px 2px 0 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 2px 2px 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 0 1px rgba(0, 0, 0, 0.2);
+
+}
