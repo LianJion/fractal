@@ -720,3 +720,12 @@
     //就是不更新，撤销更新的意思啊！
 
 *6* 更新还是原来的三部曲，add，commit，push
+
+###### 1209 日的问题： 嗯，本地shell.exe提示要更新了
+###### 错误如下，git都不能识别了
+    警告: git command could not be found. Please create an alias or add it to your PATH.
+    警告: Could not find ssh-agent.
+
+[解决方式参考链接](http://blog.csdn.net/fzy0201/article/details/40090759)
+
+###### 新建了一个仓库再次打开shell就可以了
