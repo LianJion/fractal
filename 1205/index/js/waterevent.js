@@ -54,7 +54,7 @@ var kochmv = {
 };
 
 var pythagorasmv = {
-  x:540,
+  x:140,
   y:200,
 };
 
@@ -80,21 +80,12 @@ var snowpos = {
 }
 
 var  fishpos = {
-  x:0,
-  y:0
+  x: 250+274+140,
+  y: 0
 }
 
 
-function updateFishPos () {
 
-  if (fishpos.y >= canvas.height-fish.height) {
-    fishpos.y = canvas.height-fish.height;
-    
-  } else {
-    fishpos.y += exptest;
-  }
-  
-}
 
 
 function calculateFps(now) {
@@ -171,23 +162,6 @@ function bg() {
   canvas.ctx.drawImage(sky, 0, 0);
 }
 
-function drawWater() {
-  //判断条件有待修改
-  // if (drop) {
-  //   dropWaterOffset = 0;
-  // } else {
-    dropWaterOffset = dropWaterOffset < 350 ? dropWaterOffset + FAST_TREE_VELOCITY/fps : 350;
-    //给了一个常数保证下落的高度值。
-    dropOffsetY = dropOffsetY < canvas.height ? dropOffsetY + Y_VELOCITY/fps : 0;
-  // }
- 
-  canvas.ctx.save();
-    // canvas.ctx.translate(0, dropWaterOffset);
-    waterdrop.y = dropWaterOffset;
-    canvas.ctx.drawImage(water, waterdrop.x, waterdrop.y);
-    console.log(waterdrop.y);
-  canvas.ctx.restore();
-}
 
 function drawFish() {
   canvas.ctx.drawImage(fish, fishpos.x, fishpos.y);
@@ -216,6 +190,19 @@ function updateKochPos () {
     exp = -exp;
   }
   kochmv.x += exp;
+  return kochmv;
+}
+
+
+function updateFishPos () {
+
+  if (fishpos.y >= 175) {
+    fishpos.y = 175;
+    
+  } else {
+    fishpos.y += exptest;
+  }
+  
 }
 
 //pythagoras通过y坐标控制动画
@@ -244,15 +231,19 @@ function updateKochSnowflakePos () {
 //Htree通过(x,y)坐标控制动画
 function upadteHtreePos () {
   if (htreemv.y > canvas.height || htreemv.y < 0) {
-    exp = -exp;
+    exptest = -exptest;
+    
+     htreemv.y += exptest;
   }
 
-  if (htreemv.x > canvas.height || htreemv.x < 0) {
-    exp = -exp;
+  if (htreemv.x > canvas.width || htreemv.x < 0) {
+    exptest = -exptest;
+   
+    htreemv.x += exptest;
   }
 
-  htreemv.x += exp;
-  htreemv.y += exp;
+   htreemv.x += exptest;
+  htreemv.y += exptest;
 }
 
 
@@ -262,32 +253,49 @@ function kochTest(time) {
   fps = calculateFps(time);
   if (!paused) {
       canvas.ctx.clearRect(0,0,canvas.width,canvas.height);
-      // drawBg();
-      bg();
+      drawBg();
+      // bg();
       // drawFish();
       drawIce();
       ///通过调用这个update来增加坐标。
+      
       kochsnowflake.update(snowpos);
+   
+     
 
       //毕达哥斯拉树和h-tree树
       // updatePythagorasPos();
       // pythagoras.update(pythagorasmv);
       // upadteHtreePos();
+      // console.log(htreemv.x);
+      // console.log(htreemv.y);
       // htree.update(htreemv);
+      //间隔开 滑动和下落动画
 
-      drawWater();
-      updateFishPos();
-      console.log(fishpos.y);
       drawFish();
-    
-      // console.log(dropWaterOffset);
-      if (dropWaterOffset >= 350) {
-        // console.log('a');
-        updateKochPos();
-        koch.update(kochmv);
+      if (!drop) {
+        updateFishPos();
+
+        if (fishpos.y >= 150) {
+
+          updateKochPos();
+
+          koch.update(kochmv);
+        } else {
+          koch.update(kochmvcopy);
+        }
       } else {
+       
         koch.update(kochmvcopy);
       }
+
+      
+      
+      // console.log(fishpos.y);
+      
+    
+      // console.log(dropWaterOffset);
+    
   }
 
   requestNextAnimationFrame(kochTest);
@@ -305,39 +313,6 @@ function windowToCanvas(c, x, y) {
 
 
 
-
-function handleMouseclick(e){
-  var mouseX,
-      mouseY;
-  mouseX = parseInt(e.clientX- 8);
-  mouseY = parseInt(e.clientY- 8);
-
-  var dx = mouseX  - waterdrop.x;
-  var dy = mouseY + FAST_TREE_VELOCITY/fps - waterdrop.y;
-
-  // console.log(mouseY);
-  // console.log(waterdrop.y);
-  // console.log(dropOffsetY);
-  
-  // console.log(water.height);
-
-  if ( dx <= water.width && dx >= 0 && dy <= water.height+15 && dy >= 0 ){
-    console.log(dy);
-    drop = false;
-      water.isClick = false;
-    console.log(water.isClick);
-    water.isClick = water.isClick ? false : true;
-    //点击一次true
-    // console.log(water.isClick);
-    // change to hovercolor if previously outside
-    if (water.isClick){
-        paused = paused ? false : true;
-        water.isClick = false;
-    }
-  }else {
-        // console.log("aaa");
-  }
-}
 
 
 function handleMousemove(e) {
@@ -366,13 +341,20 @@ function handleMouseclickfish(e) {
   var dy = mouseY - fishpos.y;
   if (dx <= fish.width && dx >= 0 && dy <= fish.height && dy >= 0){
     
-    paused = false;
+    drop = false;
+
+    fish.isClick = false;
+    console.log('fish.isClick:' + fish.isClick);
+    fish.isClick = fish.isClick ? false : true;
+    if (fish.isClick){
+        paused = paused ? false : true;
+        fish.isClick = false;
+    }
   }
 }
 
 canvas.onmousedown = function(e) {
   //点击拖拽
-  handleMouseclick(e);
   handleMousemove(e);
   handleMouseclickfish(e);
 }
@@ -444,21 +426,16 @@ grass2.src = 'images/grass2.png';
 sky.src = 'images/background.png';
 icebar.src = 'images/snowhot.png';
 snow.src = 'images/snowflake.png';
-fish.src = 'images/fish.png';
+fish.src = 'images/waterdrop.png';
 
 sky.onload = function (e) {
-   // drawBg();
-   bg();
-   drawWater();
+   drawBg();
+   // bg();
    drawIce();
    drawFish();
   
    koch.update(kochmvcopy);
-   // kochsnowflake.update(kochmvcopy);
-   // console.log(water);
-   // console.log(icebar);
-   //
-   // kochsnowflake.update(kochsnowflakemvcopy);
+   kochsnowflake.update(kochsnowflakemvcopy);
 };
 
 
