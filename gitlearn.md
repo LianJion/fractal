@@ -729,3 +729,24 @@
 [解决方式参考链接](http://blog.csdn.net/fzy0201/article/details/40090759)
 
 ###### 新建了一个仓库再次打开shell就可以了
+
+
+#### 1210使用问题如下：
+
+    git add 1205
+    //执行git add的时候出现这样的问题
+    The file will have its original line endings in your working directory.
+    warning: LF will be replaced by CRLF in 1205/thinkmotion/test/cartoonone/js/TimelineMax.min.js.
+
+###### 理解意思:换行方式不统一,windows中的换行符为  CRLF， 而在Linux下的换行符为LF，所以在执行add . 时出现提示，解决办法：
+
+
+#### 解决方案：
+    //方案1
+    $ git config --global core.autocrlf false  //禁用自动转换
+
+    //方案2
+    git config core.filemode false
+    git config core.eol lf
+
+[没解释](https://segmentfault.com/q/1010000000518769)
