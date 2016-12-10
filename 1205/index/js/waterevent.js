@@ -253,8 +253,8 @@ function kochTest(time) {
   fps = calculateFps(time);
   if (!paused) {
       canvas.ctx.clearRect(0,0,canvas.width,canvas.height);
-      drawBg();
-      // bg();
+      // drawBg();
+      bg();
       // drawFish();
       drawIce();
       ///通过调用这个update来增加坐标。
@@ -429,8 +429,8 @@ snow.src = 'images/snowflake.png';
 fish.src = 'images/waterdrop.png';
 
 sky.onload = function (e) {
-   drawBg();
-   // bg();
+   // drawBg();
+   bg();
    drawIce();
    drawFish();
   
