@@ -750,3 +750,10 @@
     git config core.eol lf
 
 [没解释](https://segmentfault.com/q/1010000000518769)
+
+
+#### 1211 日： Everything up-to-date
+######看到了这个，以为都更新好了，结果github没有刚刚上传的文件！
+#### 其实是自己粗心，提交错误，应该git  push origin svg的，结果git push origin master ，而master我刚刚更新过，所以会有这样的提示。
+
+
