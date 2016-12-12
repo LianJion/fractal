@@ -789,3 +789,74 @@
     Branch master set up to track remote branch master from origin.
 
 ###### 到此为止，上传成功
+
+
+#### 1213 姐姐我雷雨发庄稼弄好了，滚回来创建本地canvas仓库啊！
+
+###### 前情提要：嗯，n久之前，某渣豪情壮志地立下誓言，canvas好好整！就心血来潮整了个canvas仓库，然后就在也没有后文了，只留README.md文件（还只有一句话，甚是孤单啊）
+
+###### 某渣今天被潘老师一顿说教，嗯，鸡血涂满身，亲手整合了一幕雷雨发庄稼的好戏！
+
+###### 某渣得了好句：雷雨发庄稼（四声），瑞雪兆丰年
+
+###### 这么多废话，还睡不睡觉了！！！不多说，直接上图
+
+*1* 如图所示
+![远程仓库](gitclone.png)
+
+*2* 选择一个文件夹作为存放仓库的位置，我选了"canvas动画"这个文件夹！
+
+*3* 这时候 canvas动画文件夹下出现了canvas文件，canvas/README.md
+
+*4* 有了README.md，说明该仓库不用自己init了，直接可以用了！
+    
+    //先切换到canvas目录下
+    G:\git1001 [master ≡ +3 ~0 -0 !]> cd ../
+    G:\ [gh-pages +14 ~0 -0 !]> cd canvas动画\canvas
+    //无知少女干的初始化，
+    G:\canvas动画\canvas [master ≡]> git init
+    Reinitialized existing Git repository in G:/canvas动画/canvas/.git/
+
+
+###### 提示：Reinitialized existing Git repository in G:/canvas动画/canvas/.git/
+###### 解释：如果项目在此之前没有init过，那么会继续执行，如果项目之前执行过这条命令的话，会显示一句：Reinitialized existing Git repository in G:/canvas动画/canvas/.git/ 意思是重新初始化。
+
+*5* 接下来就顺利了，我把雷雨发庄稼的文件夹 canvasmotion ，复制一份到了canvas目录下。
+
+*6* 老规矩，四部曲（咦？四部？四步？！三部曲的升华版，git status指示！）
+
+    G:\canvas动画\canvas [master ≡]> git status
+
+    On branch master
+    Your branch is up-to-date with 'origin/master'.
+    Untracked files:
+      (use "git add <file>..." to include in what will be committed)
+
+            canvasmotion/
+
+    nothing added to commit but untracked files present (use "git add" to track)
+
+    G:\canvas动画\canvas [master ≡ +1 ~0 -0 !]> git add canvasmotion
+
+    G:\canvas动画\canvas [master ≡ +30 ~0 -0 ~]> git commit -m 
+
+    "lightningRainGrass"
+    [master 01726b8] lightningRainGrass
+     30 files changed, 3817 insertions(+)
+     create mode 100644 canvasmotion/drop.js
+     ……
+     create mode 100644 canvasmotion/tree/wind.png
+
+    G:\canvas动画\canvas [master ↑]> git push origin master
+
+    Counting objects: 36, done.
+    Delta compression using up to 4 threads.
+    Compressing objects: 100% (36/36), done.
+    Writing objects: 100% (36/36), 39.10 KiB | 0 bytes/s, done.
+    Total 36 (delta 9), reused 0 (delta 0)
+    remote: Resolving deltas: 100% (9/9), done.
+    To https://github.com/LianJion/canvas.git
+       326959e..01726b8  master -> master
+
+
+
