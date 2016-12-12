@@ -757,3 +757,35 @@
 #### 其实是自己粗心，提交错误，应该git  push origin svg的，结果git push origin master ，而master我刚刚更新过，所以会有这样的提示。
 
 
+
+
+#### 12月12日：双12啦啦啦
+###### 好久没有新建仓库了，嗯，coe要一个仓库的！
+[新建仓库教程啊](https://github.com/LianJion/coe)
+
+*1* 我选择了set up in desktop
+![如图](newRepository.png)
+
+*2* 自动打开github.exe ，然后找到一个本地文件夹coe作为本地仓库
+
+*3* 直接开始create a new repository on the command line的提示命令
+    
+    echo "# coe" >> README.md
+    //创建一个README.md文件
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git remote add origin https://github.com/LianJion/coe.git
+    git push -u origin master
+
+    Counting objects: 2783, done.
+    Delta compression using up to 4 threads.
+    Compressing objects: 100% (2166/2166), done.
+    Writing objects: 100% (2783/2783), 15.63 MiB | 61.00 KiB/s, done.
+    Total 2783 (delta 600), reused 0 (delta 0)
+    remote: Resolving deltas: 100% (600/600), done.
+    To https://github.com/LianJion/coe.git
+       ea0e854..32ddd47  master -> master
+    Branch master set up to track remote branch master from origin.
+
+###### 到此为止，上传成功
