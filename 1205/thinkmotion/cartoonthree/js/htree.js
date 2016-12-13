@@ -16,19 +16,19 @@ function Htree(canvas){
     this.max_order = 10;
     this.order_colors = Gradient("#D4E576","#126845",this.max_order+1);
     // this.start_length = this.canvas.height/3.25;  //144.6
-    this.start_length = this.canvas.height/10;
-    this.start_width = 10;        
+    this.start_length = this.canvas.height/5;
+    this.start_width = 15;        
     
     this.previous = {x:0,y:0};
 }
 
 Htree.prototype = {
     // update的参数是canvas页面传进来的
-    update: function(pos){
+    update: function(pos,x,y){
         this.updateAngle(pos);
         this.updateRatio(pos);
         // 调用了更新后的角度和比值，再进行绘制
-        this.draw();
+        this.draw(x, y);
     },
     updateAngle: function(pos){
 
@@ -47,13 +47,14 @@ Htree.prototype = {
         //不明白为啥要这样写
         // console.log(this.ratio);
     },
-    draw: function(){
+    draw: function(x,y){
         
         // draw the trunk of the tree.画出树的躯干
         this.canvas.ctx.save();
 
             //把原点（0，0）移动到底部中点
-            this.canvas.ctx.translate(this.canvas.width/2,this.canvas.height-55);
+            // this.canvas.ctx.translate(this.canvas.width/2,this.canvas.height-55);
+            this.canvas.ctx.translate(x, y);
             // (325,470)
 
               //actually draw the trunk.
