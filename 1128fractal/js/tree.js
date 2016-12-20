@@ -105,7 +105,7 @@ Tree.prototype = {
       //draw the right branch
       this.ctx.save();
           // 起初旋转角度Math.PI/5 ，36°
-          this.ctx.rotate(this.angle);
+          this.ctx.rotate(this.angle*1.5);
       
           this.drawBranch(new_length,new_width);
       

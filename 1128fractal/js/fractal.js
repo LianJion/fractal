@@ -23,10 +23,10 @@ window.onload = function() {
     
   var h_tree =  new Tree(canvas);
   console.log(h_tree);
-  var koch =  new Koch(canvas);
-  var pythagoras =  new Pythagoras(canvas);
+  // var koch =  new Koch(canvas);
+  // var pythagoras =  new Pythagoras(canvas);
   h_tree.update(treepos);
-  koch.update(kochpos);
-  pythagoras.update(pythagoraspos);
+  // koch.update(kochpos);
+  // pythagoras.update(pythagoraspos);
   
 };

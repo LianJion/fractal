@@ -215,13 +215,15 @@ function treeTest(time) {
     
   
       // 当移动的时候开始出发htree树
-      if (isOpacity) {
+      // if (isOpacity) {
+        // console.log("a");
         upadteHtreePos();
-        htree.update(loc);
+        // console.log(loc);
+        htree.update(htreemv);
         // pythagorastree.update(loc, 180);
-      } else {
-        htree.update(htreemvcopy);
-      }
+      // } else {
+        // htree.update(htreemvcopy);
+      // }
      
     
   }
@@ -248,7 +250,7 @@ function handleMousemove(e){
   // if(isOpacity){
     var locPos = windowToCanvas(canvas, e.clientX, e.clientY);
     loc.x = locPos.x;
-    loc.y = locPos.y/8;
+    loc.y = locPos.y;
     // console.log(loc);
     isOpacity = true;
   // }
